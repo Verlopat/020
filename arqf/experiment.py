@@ -11,8 +11,9 @@ def run(cfg,outdir):
    c,u,amounts=generate(seed,cfg.participants,cfg.projects,scenario,cfg.base_contribution)
    q=quadratic_funding(c,cfg.matching_pool);qf,_=fairness_regulator(q,cfg.matching_pool,cfg.fairness_gini_max,cfg.min_project_share)
    ar,alpha=ar_qf(c,cfg.matching_pool,np.random.default_rng(seed+10000),cfg.adaptive_strength,cfg.random_temperature);arf,_=fairness_regulator(ar,cfg.matching_pool,cfg.fairness_gini_max,cfg.min_project_share)
+   contributor_total=c.sum(axis=0)
    for mech,f in {"qf":q,"qf_fair":qf,"arqf":arf}.items():
-    rows.append({"scenario":scenario.name,"seed":seed,"mechanism":mech,"participants":cfg.participants,"projects":cfg.projects,"contribution_total":float(c.sum()),"matching_total":cfg.matching_pool,"project_funding":float(f.sum()),"gini":gini(f),"contribution_gini":gini(amounts),"entropy":entropy(amounts),"welfare":welfare(f,u),"sybil_gain":0.,"collusion_gain":0.,"hhi":hhi(f),"top1_share":top_share(f,1),"top5_share":top_share(f,min(5,cfg.projects)),"top10_share":top_share(f,min(10,cfg.projects)),"adaptive_alpha":alpha if mech=="arqf" else 1.,"gas_used":0,"transaction_count":0,"latency_seconds":0.})
+    rows.append({"scenario":scenario.name,"seed":seed,"mechanism":mech,"participants":cfg.participants,"projects":cfg.projects,"contribution_total":float(c.sum()),"matching_total":cfg.matching_pool,"project_funding":float(f.sum()),"gini":gini(f),"contribution_gini":gini(contributor_total),"entropy":entropy(contributor_total),"welfare":welfare(f,u),"sybil_gain":0.,"collusion_gain":0.,"hhi":hhi(f),"top1_share":top_share(f,1),"top5_share":top_share(f,min(5,cfg.projects)),"top10_share":top_share(f,min(10,cfg.projects)),"contributor_top1_share":top_share(contributor_total,1),"contributor_top5_share":top_share(contributor_total,min(5,len(contributor_total))),"contributor_top10_share":top_share(contributor_total,min(10,len(contributor_total))),"adaptive_alpha":alpha if mech=="arqf" else 1.,"gas_used":0,"transaction_count":0,"latency_seconds":0.})
  idx={(r["scenario"],r["seed"],r["mechanism"]):r for r in rows}
  for r in rows:
   if r["scenario"]!="normal":

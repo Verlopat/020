@@ -1,0 +1,1 @@
+{"participants":500,"projects":20,"matching_pool":100000,"seeds":20,"fairness_gini_max":0.35,"min_project_share":0.005,"adaptive_strength":0.75,"random_temperature":0.2}

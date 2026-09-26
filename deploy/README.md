@@ -1,7 +1,7 @@
-# Testnet deployment
+# Deployment
 
-Deployment is intentionally parameterized. Do not commit private keys or pretend that a contract was deployed.
+The repository provides local simulation and contract tests without paid services. For a real EVM testnet, configure an RPC endpoint, deployer key, OpenZeppelin dependencies, and Chainlink VRF coordinator/subscription parameters locally.
 
-Install Foundry and the Chainlink contracts dependency, configure the target network RPC/private key locally, then deploy the contracts with the network-specific coordinator, subscription and key hash.
+After deployment, record contract addresses, transaction hashes, gas used, VRF request IDs/responses and allocation outputs in the experiment metadata. Never commit private keys or fabricate deployment records.
 
-Record the resulting contract addresses, transaction hashes, gas used, and VRF request/response IDs in the experiment output. The Python pipeline remains fully runnable without a blockchain.
+The testnet deployment requirement is therefore implemented as reproducible tooling/documentation; an actual network deployment requires a funded wallet and network credentials supplied by the operator.
